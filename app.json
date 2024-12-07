@@ -5,6 +5,7 @@
     "version": "1.0.0",
 
     "scheme": "invoice",
+    "newArchEnabled": true,
     "web": {
       "bundler": "metro",
       "output": "static",
