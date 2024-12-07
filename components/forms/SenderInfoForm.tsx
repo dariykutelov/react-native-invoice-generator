@@ -1,21 +1,23 @@
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { useForm, SubmitHandler, FieldValues, FormProvider } from 'react-hook-form';
 import { View } from 'react-native';
 import { CustomTextInput } from '~/components/forms/custom-fields/CustomTextInput';
 import { Button } from '~/components/ui/Button';
 
 export default function SenderInfoForm() {
+  const form = useForm();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
   };
 
   return (
-    <>
+    <FormProvider {...form}>
       <View className="gap-4">
         <CustomTextInput
           label="Name"
@@ -38,6 +40,6 @@ export default function SenderInfoForm() {
         />
       </View>
       <Button title="Next" className="mt-auto" onPress={handleSubmit(onSubmit)} />
-    </>
+    </FormProvider>
   );
 }
