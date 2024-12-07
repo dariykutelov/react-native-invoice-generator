@@ -2,9 +2,25 @@ import { useForm, SubmitHandler, FieldValues, FormProvider } from 'react-hook-fo
 import { View } from 'react-native';
 import { CustomTextInput } from '~/components/forms/custom-fields/CustomTextInput';
 import { Button } from '~/components/ui/Button';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const senderInfoSchema = z.object({
+  name: z
+    .string({ required_error: 'Name is required' })
+    .min(3, { message: 'Name should be at least 3 characters' }),
+  address: z
+    .string({ required_error: 'Address is required' })
+    .min(3, { message: 'Address should be at least 3 characters' }),
+  taxId: z.string().optional(),
+});
+
+type SenderInfoSchema = z.infer<typeof senderInfoSchema>;
 
 export default function SenderInfoForm() {
-  const form = useForm();
+  const form = useForm<SenderInfoSchema>({
+    resolver: zodResolver(senderInfoSchema),
+  });
 
   const {
     control,
@@ -12,32 +28,21 @@ export default function SenderInfoForm() {
     formState: { errors },
   } = form;
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<SenderInfoSchema> = (data) => {
     console.log(data);
   };
 
   return (
     <FormProvider {...form}>
       <View className="gap-4">
-        <CustomTextInput
-          label="Name"
-          name="name"
-          control={control}
-          rules={{ required: 'Name is required' }}
-        />
+        <CustomTextInput label="Name" name="name" rules={{ required: 'Name is required' }} />
 
         <CustomTextInput
           label="Address"
           name="address"
-          control={control}
           rules={{ required: 'Address is required' }}
         />
-        <CustomTextInput
-          label="Tax ID"
-          name="taxId"
-          control={control}
-          rules={{ required: 'Tax ID is required' }}
-        />
+        <CustomTextInput label="Tax ID" name="taxId" rules={{ required: 'Tax ID is required' }} />
       </View>
       <Button title="Next" className="mt-auto" onPress={handleSubmit(onSubmit)} />
     </FormProvider>

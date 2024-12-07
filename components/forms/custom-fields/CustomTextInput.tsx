@@ -6,21 +6,14 @@ import { TextInput, Text, View, TextInputProps } from 'react-native';
 type CustomTextInputProps = TextInputProps & {
   label: string;
   name: string;
-  control: Control<FieldValues>;
   rules?: RegisterOptions<FieldValues, string>;
 };
 
-export const CustomTextInput = ({
-  label,
-  control,
-  name,
-  rules,
-  ...props
-}: CustomTextInputProps) => {
+export const CustomTextInput = ({ label, name, rules, ...props }: CustomTextInputProps) => {
   const {
     field: { onChange, value, onBlur },
     fieldState: { error },
-  } = useController({ control, name, rules });
+  } = useController({ name, rules });
 
   return (
     <View className="gap-2">
