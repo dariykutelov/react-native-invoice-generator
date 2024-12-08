@@ -10,6 +10,7 @@ import {
   invoiceInfoSchema,
   type InvoiceInfoSchema,
 } from '~/lib/schemas/invoice-info-schema';
+import { useStore } from '~/store';
 
 export default function InvoiceInfoForm() {
   const form = useForm<InvoiceInfoSchema>({
@@ -25,9 +26,11 @@ export default function InvoiceInfoForm() {
   });
 
   const { handleSubmit } = form;
+  const addInvoiceInfo = useStore((state) => state.addInvoiceInfo);
 
   const onSubmit: SubmitHandler<InvoiceInfoSchema> = (data) => {
     console.log(data);
+    addInvoiceInfo(data);
     router.push('/invoices/generate/invoice-items' as RelativePathString);
   };
 

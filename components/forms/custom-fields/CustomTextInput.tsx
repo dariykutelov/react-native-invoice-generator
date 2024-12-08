@@ -1,6 +1,6 @@
 import { useController } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
-import { Control, RegisterOptions } from 'react-hook-form';
+import { RegisterOptions } from 'react-hook-form';
 import { TextInput, Text, View, TextInputProps } from 'react-native';
 
 type CustomTextInputProps = TextInputProps & {

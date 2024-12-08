@@ -8,6 +8,7 @@ import {
   type CompanyDetailsSchema,
 } from '~/lib/schemas/company-details-schema';
 import { RelativePathString, router } from 'expo-router';
+import { useStore } from '~/store';
 
 type CompanyType = 'sender' | 'recipient';
 
@@ -33,15 +34,19 @@ export default function CompanyDetailsForm({ companyType }: CompanyDetailsFormPr
     },
   });
 
+  const addSenderInfo = useStore((state) => state.addSenderInfo);
+  const addRecipientInfo = useStore((state) => state.addRecipientInfo);
   const { handleSubmit } = form;
 
   const onSubmit: SubmitHandler<CompanyDetailsSchema> = (data) => {
     console.log(data);
     switch (companyType) {
       case 'sender':
+        addSenderInfo(data);
         router.push('/invoices/generate/recipient' as RelativePathString);
         break;
       default:
+        addRecipientInfo(data);
         router.push('/invoices/generate/invoice-info' as RelativePathString);
     }
   };
